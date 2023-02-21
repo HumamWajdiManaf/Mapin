@@ -2,28 +2,44 @@
     $path = 'pages';
     $page = 'dashboard';
     if(isset($_GET['page'])){
-        switch($_GET ['page']){
+		$page = strtolower($_GET ['page']);
+        switch($page){
             case 'dashboard':
                 $page = 'dashboard';
                 break;
-            case 'tambah_materi':
-                $page = 'tambah_materi';
+			case 'mapel':
+			case 'bab':
+			case 'quiz':
+			case 'promo':
+			case 'artikel':
+                $page .= '/view';
+				break;
+			case 'mapel_form':
+			case 'materi_form':
+			case 'bab_form':
+			case 'promo_form':
+			case 'artikel_form':
+			case 'quiz_list':
+			case 'quiz_form':
+                $page = str_replace('_','/',$page);
                 break;
-            case 'materi_biologi':
-                $page = 'materi_biologi';
+			
+            case 'materi':
+				if(isset($_GET['id_mapel'])){
+					$page .= '/list';
+				}else{
+					$page .= '/view';
+				}
                 break;
-            case 'tambah_quiz':
-                $page = 'tambah_quiz';
-                break;
-            case 'tambah_promo':
-                $page = 'tambah_promo';
-                break;
-            case 'charts':
-                $page = 'charts';
-                break;
+			case 'editprofile':
+				$page .= '/editprofile';
+				break;
+			case 'profile':
+				$page .= '/profile';
+				break;     
             default:
-                $page = 'dashboard';
-        }
-    }
-    include $path.'/'.$page.'.php';
-?>php
+                $page = '404';
+		}
+	}
+	include $path.'/'.$page.'.php';
+?>
