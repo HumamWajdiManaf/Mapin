@@ -19,6 +19,9 @@
 			case 'bab_form':
 			case 'promo_form':
 			case 'artikel_form':
+			case 'user_form':
+			case 'history_form':
+			case 'quizjawaban_form':
 			case 'quiz_list':
 			case 'quiz_form':
                 $page = str_replace('_','/',$page);
@@ -36,7 +39,14 @@
 				break;
 			case 'profile':
 				$page .= '/profile';
-				break;     
+				break; 
+			case 'user':
+				$page .= '/user_view';
+				break;
+			case 'history':
+				$page .= '/view_history';
+				break;
+			   
             default:
                 $page = '404';
 		}

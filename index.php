@@ -82,11 +82,18 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-solid fa-clipboard-question"></i></div>Quiz
                             </a>
                             <a class="nav-link <?=($page == 'promo' ? 'active' : '')?>" href="?page=promo">
-                                <div class="sb-nav-link-icon"><i class="fas fa-solid fa-receipt"></i></div>Promo
+                                <div class="sb-nav-link-icon"><i class="fas fa-solid fa-tags"></i></div>Promo
                             </a>
                             <a class="nav-link <?=($page == 'artikel' ? 'active' : '')?>" href="?page=artikel">
                                 <div class="sb-nav-link-icon"><i class="fas fa-solid fa-receipt"></i></div>Artikel
                             </a>
+                            <a class="nav-link <?=($page == 'user' ? 'active' : '')?>" href="?page=user">
+                                <div class="sb-nav-link-icon"><i class="fas fa-solid fa-user"></i></div>User
+                            </a>
+                            <a class="nav-link <?=($page == 'history' ? 'active' : '')?>" href="?page=history">
+                                <div class="sb-nav-link-icon"><i class="fas fa-solid fa-clock-rotate-left"></i></div>History
+                            </a>
+
                             <div class="sb-sidenav-menu-heading">Lainnya</div>
                             <a class="nav-link <?=($page == 'charts' ? 'active' : '')?>" href="?page=charts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>Charts

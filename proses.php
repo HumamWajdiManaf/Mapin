@@ -61,6 +61,15 @@
 		case 'artikel_hapus':
 			artikel_hapus();
 			break;
+			case 'user_tambah':
+				user_tambah();
+				break;
+			case 'user_edit':
+				user_edit();
+				break;
+			case 'user_hapus':
+				user_hapus();
+				break;
 		
 	}
 	
@@ -643,5 +652,89 @@
 			set_flash('toast',set_toast('Gagal',addslashes(mysqli_error($GLOBALS['koneksi'])),'danger'));
 		}
 		redirect(base_url('?page=artikel'));
+	}
+
+	//user function by Alif
+
+	function user_tambah(){
+		$file = get_file($_FILES['file_gambar_user']);
+		$filename = 'assets/img/img_user_'.time().'.'.$file['ext'];
+		$id_user = 'USR-'.randomstring();
+		
+		$data = [
+			'id_user2' => $id_user,
+			'nama_user2' => $_POST['txt_nama_user'],
+			'nama' => $_POST['txt_nama'],
+			'keterangan_user2' => $_POST['txt_keterangan_user'],
+			'img_user2' => $filename,
+
+		];
+		
+		if(mysqli_query($GLOBALS['koneksi'], query_insert('tbl_user2',$data))){
+			if(upload_file($file['tmp'],$filename)){
+				set_flash('toast',set_toast('Berhasil','User '.$data['nama_user2'].' berhasil disimpan.','success'));
+				redirect(base_url('?page=user'));
+			}else{
+				query_delete('tbl_user2',"id_user2='".$id_user."'");
+				set_flash('data',$_POST);
+				set_flash('toast',set_toast('File','File gagal di upload!','danger'));
+				redirect(base_url('?page=user_form'));
+			}
+		}else{
+			set_flash('data',$_POST);
+			set_flash('toast',set_toast('Gagal',addslashes(mysqli_error($GLOBALS['koneksi'])),'danger'));
+			redirect(base_url('?page=user_form'));
+		}
+	}
+	function user_edit(){
+		$id_user = dekrip($_GET['id']);
+		$getdata = query_row("SELECT * FROM tbl_user2 WHERE id_user2='".$id_user."'");
+		$data = [
+			'nama_user2' => $_POST['txt_nama_user'],
+			'nama' => $_POST['txt_nama'],
+			'keterangan_user2' => $_POST['txt_keterangan_user'],
+			
+		];
+		$file = get_file($_FILES['file_gambar_user']);
+		if(!empty($file['tmp'])){
+			$filename = 'assets/img/img_user_'.time().'.'.$file['ext'];
+			$data['img_user'] = $filename;
+		}
+		if(mysqli_query($GLOBALS['koneksi'], query_update('tbl_user2',$data,"id_user2='".$id_user."'"))){
+			$success = true;
+			if(!empty($file['tmp'])){
+				if(upload_file($file['tmp'],$filename)){
+				}else{
+					$success = false;
+				}
+			}
+			if($success){
+				if(!empty($file['tmp'])){
+					delete_file($getdata['img_user2']);
+				}
+				set_flash('toast',set_toast('Berhasil','User'.$data['nama_user'].' berhasil di edit.','success'));
+				redirect(base_url('?page=user'));
+			}else{
+				mysqli_query($GLOBALS['koneksi'], query_update('tbl_user2',$getdata,"id_user2='".$id_user."'"));
+				set_flash('data',$_POST);
+				set_flash('toast',set_toast('File','File gagal di upload!','danger'));
+				redirect(base_url('?page=user_form&id='.enkrip($id_user)));
+			}
+		}else{
+			set_flash('data',$_POST);
+			set_flash('toast',set_toast('Gagal',addslashes(mysqli_error($GLOBALS['koneksi'])),'danger'));
+			redirect(base_url('?page=user_form&id='.enkrip($id_user)));
+		}
+	}
+	function user_hapus(){
+		$id_user = dekrip($_GET['id']);
+		$getdata = query_row("SELECT * FROM tbl_user2 WHERE id_user2='".$id_user."'");
+		if(query_delete('tbl_user2',"id_user2='".$id_user."'")){
+			delete_file($getdata['img_user2']);
+			set_flash('toast',set_toast('Berhasil','User '.$getdata['nama_user2'].' berhasil di hapus.','success'));
+		}else{
+			set_flash('toast',set_toast('Gagal',addslashes(mysqli_error($GLOBALS['koneksi'])),'danger'));
+		}
+		redirect(base_url('?page=user'));
 	}
 ?>
