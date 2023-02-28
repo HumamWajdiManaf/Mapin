@@ -11,6 +11,9 @@
 					<div class="col-auto me-auto align-self-center">
 					  <i class="fas fa-table me-1"></i>Data Materi
 					</div>
+					<div class="col-auto">
+					  <a class="btn btn-success" href="?page=quiz_formMateri" role="button"><i class="fas fa-plus me-1"></i>Tambah</a>
+					</div> 
 				  </div>
 				</div>
 				<div class="card-body">
