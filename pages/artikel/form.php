@@ -6,6 +6,7 @@
 	$nama_artikel = '';
 	$keterangan_artikel = '';
 	$img_artikel = '';
+	$file_artikel='';
 	$required_file = true;
 	$penulis_artikel = '';
 	$tanggal_rilis_artikel = '';
@@ -21,6 +22,7 @@
 			$nama_artikel = $data['nama_artikel'];
 			$keterangan_artikel = $data['keterangan_artikel'];
 			$img_artikel = $data['img_artikel'];
+			$file_artikel = $data['file_artikel'];
 			$penulis_artikel = $data['penulis_artikel'];
 			$tanggal_rilis_artikel = $data['tanggal_rilis_artikel'];
 		}
@@ -90,7 +92,7 @@
 							]);
 
 							form_input([
-								'name' => 'file_artikel',
+								'name' => 'file_pdf_artikel',
 								'label' => 'File Artikel',
 								'type' => 'file',
 								'accept' => 'application/pdf',
@@ -104,6 +106,8 @@
 								'col' => '2',
 								'value' => $tanggal_rilis_artikel,
 							]);
+
+							
 						?>
 						<div class="col-12 d-flex justify-content-between">
 							<button type="submit" class="btn btn-success">Simpan</button>

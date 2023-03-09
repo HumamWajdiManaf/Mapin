@@ -43,7 +43,12 @@
 								<td><?=$row['penulis_artikel']?></td>						
 								<td><?=$row['keterangan_artikel']?></td>
 								<td><?=$row['tanggal_rilis_artikel']?></td>
-								<td><?=$row['file_artikel']?></td>
+								<td><?=$row['file_artikel']?>
+								
+									<a class="btn btn-info btn-sm" target="_blank" href="<?=resources($row['file_artikel'])?>" role="button">Lihat</a>
+									<a class="btn btn-success btn-sm" href="<?=resources($row['file_artikel'])?>" download="<?='ART '.$row['file_artikel'].' '.$row['nama_artikel']?>">Download</a>
+								
+								</td>
 								<td>
 									<a class="text-primary" href="?page=artikel_form&id=<?=enkrip($row['id_artikel'])?>"><i class="fas fa-solid fa-pen-to-square"></i></a>
 									|

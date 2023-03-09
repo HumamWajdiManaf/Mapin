@@ -568,9 +568,10 @@
 	}
 
 	function artikel_tambah(){
-		$file = get_file($_FILES['file_gambar_artikel']);
-		$file = get_file($_FILES['file_artikel']);
-		$filename = 'assets/img/img_artikel_'.time().'.'.$file['ext'];
+		$file_gambar = get_file($_FILES['file_gambar_artikel']);
+		$file_artikel = get_file($_FILES['file_pdf_artikel']);
+		$filename_gambar = 'assets/img/img_artikel_'.time().'.'.$file_gambar['ext'];
+		$filename_artikel = 'assets/files/file_artikel_'.time().'.'.$file_artikel['ext'];
 		$id_artikel = 'ATK-'.randomstring();
 		
 		$data = [
@@ -578,14 +579,24 @@
 			'nama_artikel' => $_POST['txt_nama_artikel'],
 			'penulis_artikel' => $_POST['txt_penulis_artikel'],
 			'keterangan_artikel' => $_POST['txt_keterangan_artikel'],
+			'file_artikel' => $filename_artikel,
 			'tanggal_rilis_artikel' => $_POST['date_tanggal_rilis_artikel'],
-			'img_artikel' => $filename,
+			'img_artikel' => $filename_gambar,
 			'created_by' => dekrip($_SESSION['user']['id_user']),
 			'created_date' => date('Y-m-d H:i:s'),
 		];
 		
 		if(mysqli_query($GLOBALS['koneksi'], query_insert('tbl_artikel',$data))){
-			if(upload_file($file['tmp'],$filename)){
+			if(upload_file($file_gambar['tmp'],$filename_gambar)){
+				//set_flash('toast',set_toast('Berhasil','Artikel '.$data['nama_artikel'].' berhasil disimpan.','success'));
+				//redirect(base_url('?page=artikel'));
+			}else{
+				query_delete('tbl_artikel',"id_artikel='".$id_artikel."'");
+				set_flash('data',$_POST);
+				set_flash('toast',set_toast('File','File gagal di upload!','danger'));
+				redirect(base_url('?page=artikel_form'));
+			}
+			if(upload_file($file_artikel['tmp'],$filename_artikel)){
 				set_flash('toast',set_toast('Berhasil','Artikel '.$data['nama_artikel'].' berhasil disimpan.','success'));
 				redirect(base_url('?page=artikel'));
 			}else{
@@ -611,22 +622,36 @@
 			'modify_by' => dekrip($_SESSION['user']['id_user']),
 			'modify_date' => date('Y-m-d H:i:s'),
 		];
-		$file = get_file($_FILES['file_gambar_artikel']);
-		if(!empty($file['tmp'])){
-			$filename = 'assets/img/img_artikel_'.time().'.'.$file['ext'];
-			$data['img_artikel'] = $filename;
+		$file_gambar = get_file($_FILES['file_gambar_artikel']);
+		$file_artikel = get_file($_FILES['file_pdf_artikel']);
+		if(!empty($file_gambar['tmp'])){
+			$filename_gambar = 'assets/img/img_artikel_'.time().'.'.$file_gambar['ext'];
+			$data['img_artikel'] = $filename_gambar;
+		}
+		if(!empty($file_artikel['tmp'])){
+			$filename_artikel = 'assets/files/file_artikel_'.time().'.'.$file_artikel['ext'];
+			$data['file_artikel'] = $filename_artikel;
 		}
 		if(mysqli_query($GLOBALS['koneksi'], query_update('tbl_artikel',$data,"id_artikel='".$id_artikel."'"))){
 			$success = true;
-			if(!empty($file['tmp'])){
-				if(upload_file($file['tmp'],$filename)){
+			if(!empty($file_gambar['tmp'])){
+				if(upload_file($file_gambar['tmp'],$filename_gambar)){
+				}else{
+					$success = false;
+				}
+			}
+			if(!empty($file_artikel['tmp'])){
+				if(upload_file($file_artikel['tmp'],$filename_artikel)){
 				}else{
 					$success = false;
 				}
 			}
 			if($success){
-				if(!empty($file['tmp'])){
+				if(!empty($file_gambar['tmp'])){
 					delete_file($getdata['img_artikel']);
+				}
+				if(!empty($file_artikel['tmp'])){
+					delete_file($getdata['file_artikel']);
 				}
 				set_flash('toast',set_toast('Berhasil','Artikel'.$data['nama_artikel'].' berhasil di edit.','success'));
 				redirect(base_url('?page=artikel'));
