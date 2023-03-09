@@ -46,7 +46,7 @@
 								<td><?=$row['file_artikel']?>
 								
 									<a class="btn btn-info btn-sm" target="_blank" href="<?=resources($row['file_artikel'])?>" role="button">Lihat</a>
-									<a class="btn btn-success btn-sm" href="<?=resources($row['file_artikel'])?>" download="<?='ART '.$row['img_artikel'].' '.$row['nama_artikel']?>">Download</a>
+									<a class="btn btn-success btn-sm" href="<?=resources($row['file_artikel'])?>" download="<?='ART '.$row['file_artikel'].' '.$row['nama_artikel']?>">Download</a>
 								
 								</td>
 								<td>

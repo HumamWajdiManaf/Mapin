@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2023 at 11:52 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.0.33
+-- Generation Time: Feb 27, 2023 at 08:55 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -34,7 +33,7 @@ CREATE TABLE `materi` (
   `nama` varchar(25) NOT NULL,
   `alamat` varchar(25) NOT NULL,
   `fakultas` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -53,7 +52,7 @@ CREATE TABLE `tbl_artikel` (
   `created_date` datetime NOT NULL,
   `modify_by` varchar(255) NOT NULL,
   `modify_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_artikel`
@@ -73,12 +72,12 @@ CREATE TABLE `tbl_bab` (
   `id_materi` varchar(255) NOT NULL,
   `no_bab` int(11) NOT NULL,
   `nama_bab` varchar(255) NOT NULL,
-  `file_bab` text,
+  `file_bab` text DEFAULT NULL,
   `created_by` varchar(255) NOT NULL,
   `created_date` datetime NOT NULL,
   `modify_by` varchar(255) DEFAULT NULL,
   `modify_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_bab`
@@ -90,6 +89,23 @@ INSERT INTO `tbl_bab` (`id_bab`, `id_materi`, `no_bab`, `nama_bab`, `file_bab`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_history`
+--
+
+CREATE TABLE `tbl_history` (
+  `no_user` int(11) NOT NULL,
+  `img_user` text NOT NULL,
+  `id_user` varchar(255) NOT NULL,
+  `id_mapel` varchar(255) NOT NULL,
+  `Id_quiz` varchar(255) NOT NULL,
+  `id_hasil` int(11) NOT NULL,
+  `id_jawaban` varchar(255) NOT NULL,
+  `tanggal_mengerjakan` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_mapel`
 --
 
@@ -97,12 +113,12 @@ CREATE TABLE `tbl_mapel` (
   `id_mapel` varchar(255) NOT NULL,
   `nama_mapel` varchar(255) NOT NULL,
   `img_mapel` text NOT NULL,
-  `keterangan_mapel` text,
+  `keterangan_mapel` text DEFAULT NULL,
   `created_by` varchar(255) NOT NULL,
   `created_date` datetime NOT NULL,
   `modify_by` varchar(255) DEFAULT NULL,
   `modify_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_mapel`
@@ -133,7 +149,7 @@ CREATE TABLE `tbl_materi` (
   `created_date` datetime NOT NULL,
   `modify_by` varchar(255) DEFAULT NULL,
   `modify_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_materi`
@@ -159,7 +175,7 @@ CREATE TABLE `tbl_promo` (
   `created_date` datetime NOT NULL,
   `modify_by` varchar(255) NOT NULL,
   `modify_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_promo`
@@ -180,15 +196,15 @@ CREATE TABLE `tbl_soal` (
   `no_soal` int(11) NOT NULL,
   `pertanyaan` text NOT NULL,
   `jawaban_a` text NOT NULL,
-  `jawaban_b` text,
-  `jawaban_c` text,
-  `jawaban_d` text,
+  `jawaban_b` text DEFAULT NULL,
+  `jawaban_c` text DEFAULT NULL,
+  `jawaban_d` text DEFAULT NULL,
   `jawaban_benar` varchar(1) NOT NULL,
   `created_by` varchar(255) NOT NULL,
   `created_date` datetime NOT NULL,
   `modify_by` varchar(255) DEFAULT NULL,
   `modify_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -206,7 +222,7 @@ CREATE TABLE `tbl_user` (
   `created_date` datetime NOT NULL,
   `modify_by` varchar(255) DEFAULT NULL,
   `modify_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_user`
@@ -214,6 +230,27 @@ CREATE TABLE `tbl_user` (
 
 INSERT INTO `tbl_user` (`id_user`, `full_name`, `user_name`, `user_password`, `user_level`, `created_by`, `created_date`, `modify_by`, `modify_date`) VALUES
 ('USR-6916729a645d639253da', 'Admin Mapin', 'admin', 'oX7sARRWqPeiJqsnLnQk-tko1eWOsHAKa5lqe5oH1k5ZblYaLdZ9QPX4QXHFrsxFVvkoW9diZ1zMO5H5fBm2pA', 'admin', 'USR-6916729a645d639253da', '2023-02-12 15:49:21', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_user2`
+--
+
+CREATE TABLE `tbl_user2` (
+  `id_user2` varchar(255) NOT NULL,
+  `nama_user2` varchar(255) NOT NULL,
+  `img_user2` text NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `keterangan_user2` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_user2`
+--
+
+INSERT INTO `tbl_user2` (`id_user2`, `nama_user2`, `img_user2`, `nama`, `keterangan_user2`) VALUES
+('USR-4lFyHFA4b2hp0tyTVs7j', 'animek', 'assets/img/img_user_1677140172.gif', 'cuy', 'cuk');
 
 --
 -- Indexes for dumped tables
